@@ -37,7 +37,6 @@
     #keyboard { /* The whole keyboard */
         display: flex;
         flex-direction: column;
-        max-width: 500px;
     }
     .row { /* Each keyboard row */
         display: flex;
@@ -57,6 +56,7 @@
         margin: .2rem;
 
         flex: 1 1 0;
+        
 
         /* Stops double tap to zoom in on mobile devices */
         touch-action: manipulation; 

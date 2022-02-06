@@ -1,5 +1,7 @@
 # Worlde Clone Guide
 
+
+
 ## Keyboard
 Let's make a new component in `/src/lib/`, called `Keyboard.svelte`.
 First, we need to define the letters that each key will contain. I'm going to make an array containing three arrays; one for each row of the keyboard.
@@ -10,7 +12,7 @@ const rows = [
     ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"]
 ];
 ```
-Next, we are going to construct the HTML. Instances like this is when the power of Svelte becomes obvious. We're going to generate the HTML using Svelte's `{#each}` block.
+Next, we are going to construct the HTML. Instances like this is when the power of Svelte becomes clear. We're going to generate the HTML using Svelte's `{#each}` block.
 ```html
 <div id="keyboard">
     {#each rows as row}
@@ -40,6 +42,7 @@ First, import the image into the component:
 ```js
 import backspace from "../assets/backspace.svg";
 ```
+
 We want to put the SVG into the button which would have contained the text "backspace". Let's do this using Svelte's `{#if}` block, like so:
 ```html
 <button>
@@ -50,6 +53,8 @@ We want to put the SVG into the button which would have contained the text "back
     {/if}
 </button>
 ```
+> **I told you Svelte was powerful!**
+
 To get the icon centering correctly in the key, we only need a few lines of CSS. To keep things clean, the value used for the button's `font-size` property and the SVG's `height` have been extracted and used as variables. Let's also explicitly set the keys' font sizes with the same variable.
 ```css
 * {
@@ -88,7 +93,7 @@ We want the keys to be displayed next to each other, from left to right. This ca
 
 Let's make those buttons look better!
 
-Different operating systems and browsers choose to render default HTML elements like buttons differently. Let's remove these defaults and make the buttons look uniform.
+Different operating systems and browsers choose to render default HTML elements - like buttons - differently. Let's remove the default styling on them and make the buttons look the way we want.
 ```css
 button {
     text-transform: uppercase;
@@ -105,11 +110,13 @@ Ok; it's getting better.
 
 Next let's space things out a bit. The keys are all cramped together - this can be fixed with a simple `margin` on each key. There's also not much space around the letters on each key. While one way to do this would be to introduce a `padding` on the keys, we're going to take a different approach. By leveraging features of flexbox, we can make the keyboard act in a more responsive way across changing screen sizes. Let's add some declarations to the `button` rule we already have.
 ```css
-/* ... */
-height: 3.5rem;
-text-align: center;
-margin: .2rem;
-flex: 1 1 0;
+button {
+    /* ... */
+    height: 3.5rem;
+    text-align: center;
+    margin: .2rem;
+    flex: 1 1 0;
+}
 ```
 The most interesting property here is `flex`. It's a 3-in-1 value pack; bundling `flex-grow`, `flex-shrink` and `flex-basis` properties into a single property. The one we are most interested in is `flex-grow`. This makes each item in the flexbox - i.e. each key - grow to take up the available space. Since our rows' `flex-direction`s are set to `row` - as is default - they grow widthways. This lets the keys grow and shrink to fill the space available to them.
 
@@ -127,8 +134,7 @@ We are doing this for two reasons;
 * To push the keys on the second row inwards, more accurately mirroring a real world keyboard.
 * To introduce an extra key's worth of space to make the middle row keys the same width as the top row keys.
 
-
-
+To do this, we are going to insert a div before the "a" key, and one after the "l" key. Then, we can give them a width of half a normal key.
 ```html
 <!-- ... -->
 {#each row as key}
@@ -148,23 +154,18 @@ We are doing this for two reasons;
 {/each}
 <!-- ... -->
 ```
+Let's specify the rule in our CSS:
+```css
+.half {
+    flex-grow: .5;
+}
+```
 
-
-
-
-
-Two halves make a whole, and not only will this  force the keys to be the same width as those on the row above.
-
-Make the enter and backspace keys the correct width. As they are ✨special✨ keys, they are traditionally 1.5x the width of normal letter keys.
-To implement this, we need a way to target them in the CSS. Let's add a utility class to them.
+Good news! We are ever so nearly done. All that's left is to make the enter and backspace keys the correct width.
+As they are ✨special✨ keys, they are traditionally 1.5x the width of normal letter keys.
+To implement this, we need a way to target them in the CSS. Let's add a utility class to them with a ternary statement.
 ```html
 <button class={key === "enter" || key === "backspace" ? "one-and-a-half" : ""}>
-    {#if key === "backspace"}
-        <img src={backspace}>
-    {:else}
-        {key}
-    {/if}
-</button>    
 ```
 If the current key is "enter" or "backspace", the `one-and-a-half` class will be added to the button. If it isn't, the button will remain classless.
 
@@ -174,6 +175,21 @@ Now we can change the width of our special keys. Let's make them grow by 1.5x th
     flex-grow: 1.5;
 }
 ```
+
+A final note!
+
+Navigate to the page on a mobile device. Say you wanted to type a letter twice, so you double tap on the corresponding button. Although you are wanting this to mean 2 separate taps in quick succession, most mobile browsers will interpret this as a *zoom in* gesture. Because it is very unlikely that a user who double taps a key is wanting to zoom in, let's disable this feature.
+
+On our main keyboard CSS rule, let's add the following line;
+```css
+#keyboard {
+    /* ... */
+    touch-action: manipulation;
+}
+```
+
+**Awesome! Our keyboard is finished!**
+
 
 ### Final result
 ![A screenshot of the final styled keyboard](./guide/assets/keyboard/keyboard-final.png)
