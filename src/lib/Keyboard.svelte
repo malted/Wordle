@@ -32,7 +32,8 @@
 
 <style>
     * {
-        --text-size: 1rem;
+        --text-size: .8rem;
+        --key-margin: .2rem;
     }
     #keyboard { /* The whole keyboard */
         display: flex;
@@ -50,11 +51,12 @@
         border-radius: 4px;
         font-size: var(--text-size);
         padding: 0;
+        cursor: pointer;
         
         height: 3.5rem;
         text-transform: uppercase;
         text-align: center;
-        margin: .2rem;
+        margin: var(--key-margin);
 
         flex: 1 1 0;
         
@@ -62,13 +64,18 @@
         touch-action: manipulation; 
     }
     .half {
-        flex-grow: .5;
+        --grow-value: .5;
+        flex-grow: var(--grow-value);
+        margin: calc(var(--key-margin) * var(--grow-value));
     }
     .one-and-a-half {
-        flex-grow: 1.5;
+        --grow-value: 1.5;
+        flex-grow: var(--grow-value);
+        margin-left: calc(var(--key-margin) * var(--grow-value));
+        margin-right: calc(var(--key-margin) * var(--grow-value));
     }
     button > img { /* The backspace icon */
-        height: var(--text-size);
+        height: calc(var(--text-size) * 1.5);
         vertical-align: text-bottom;
     }
 </style>

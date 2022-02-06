@@ -64,8 +64,8 @@ button {
     font-size: var(--text-size);
 }
 button > img {
-    height: var(--text-size);
     vertical-align: text-bottom;
+    height: var(--text-size);
 }
 ```
 Now the backspace key is in place, we can style the buttons to make them look like Wordle's. Here we are going to use flexbox, as it's very powerful and enables us to get the results we want easily.
@@ -96,6 +96,7 @@ Let's make those buttons look better!
 Different operating systems and browsers choose to render default HTML elements - like buttons - differently. Let's remove the default styling on them and make the buttons look the way we want.
 ```css
 button {
+    cursor: pointer;
     text-transform: uppercase;
     color: black;
     background-color: lightgrey;
@@ -176,10 +177,31 @@ Now we can change the width of our special keys. Let's make them grow by 1.5x th
     flex-grow: 1.5;
 }
 ```
+<blockquote>
+<details>
+<summary><b>Why are some keys bigger than others?</b></summary>
+You have a keen eye! Since we have inserted two divs at either end of the row, but we are still applying the same margin as the normal keys, there is an extra keys worth of margin in that row. Luckily, this is a simple fix; just half the margin on these keys.
+    
+<pre><code>.half {
+    flex-grow: .5;
+    margin: .1rem;
+}
+</code></pre>
+The same thing is happening with our keys on the bottom row, but in reverse! Instead of halving the margin on our enter and backspace keys, let's increase it by a half.   
+<pre><code>.one-and-a-half {
+    flex-grow: 1.5;
+    margin: .3rem
+}
+</code></pre>
+</details>
+</blockquote>
+<br>
 
-A final note!
+### A note on touch devices
 
-Navigate to the page on a mobile device. Say you wanted to type a letter twice, so you double tap on the corresponding button. Although you are wanting this to mean 2 separate taps in quick succession, most mobile browsers will interpret this as a *zoom in* gesture. Because it is very unlikely that a user who double taps a key is wanting to zoom in, let's disable this feature.
+Navigate to the page on a mobile device. Say you wanted to type a letter twice; the natural thing to do would be to double tap on the corresponding button, right? Although you are wanting this to mean 2 separate taps in quick succession, most mobile browsers will interpret this as a *zoom in* gesture.
+
+Because it is very unlikely that a user who double taps a key is wanting to zoom in, let's disable this feature.
 
 On our main keyboard CSS rule, let's add the following line;
 ```css
@@ -189,10 +211,75 @@ On our main keyboard CSS rule, let's add the following line;
 }
 ```
 
-**Awesome! Our keyboard is finished!**
+### Closing thoughts - dynamic measurements
+Alright. Our keyboard is looking awesome! But - hang on. I have decided that I don't like the size of the text inside the buttons. Seems like a simple fix to change it, right? One would think it would be as simple as changing the `font-size` property on our `button` rule.
+
+However, now that we have made that change, other values that we have decided on based on that font size now look disproportionate. The two that stick out to me the most are the filler divs' margins, and the backspace icon's height. Let's change that.
+
+First, let's define a variable so we can use it in any rule in our component.
+```css
+* {
+    --text-size: .8rem;
+    --key-margin: .2rem;
+}
+```
+Next, let's replace our `button`'s margin with this variable.
+```css
+button {
+    /* ... */
+    margin: var(--key-margin);
+}
+```
+Finally, we can introduce our dynamic values. We're going to use CSS' powerful `calc` method.
+```css
+.half {
+    /* ... */
+    margin: calc(var(--key-margin) * 0.5);
+}
+.one-and-a-half {
+    /* ... */
+    margin: calc(var(--key-margin) * 1.5);
+}
+button > img {
+    /* ... */
+    height: calc(var(--text-size) * 1.5);
+}
+```
+
+We don't want to push down our larger buttons though. Not only are we increasing their horizontal margin, we're increasing their vertical one too. We want the vertical margin to stay the same.
+![Screenshot of Firefox devtools showing the enter and backspace keys pushed below the other keys on the bottom row](./guide/assets/keyboard/margin-bad-devtools.png)
+To do this, we can simply set the left and right margins to our calculated value. The top and bottom margins will cascade down from our button rule, and stay as the value of `--key-margin`.
+```css
+.one-and-a-half {
+    margin-left: calc(var(--key-margin) * 1.5);
+    margin-right: calc(var(--key-margin) * 1.5);
+}
+```
+One more thing. Too avoid repeating ourselves and to make it more obious which valuemeans what, we can extract our multiplicand values to a local variable. Our full rules for `.half` and `.one-and-a-half` will now look like this:
+```css
+.half {
+    --grow-value: .5;
+    flex-grow: var(--grow-value);
+    margin: calc(var(--key-margin) * var(--grow-value));
+}
+.one-and-a-half {
+    --grow-value: 1.5;
+    flex-grow: var(--grow-value);;
+    margin-left: calc(var(--key-margin) * var(--grow-value));
+    margin-right: calc(var(--key-margin) * var(--grow-value));
+}
+```
+![Screenshot of Firefox devtools showing the enter and backspace keys at the same vertical level as the other keys on the bottom row](./guide/assets/keyboard/margin-good-devtools.png)
+Perfect!
 
 
 ### Final result
+Our keyboard:
 ![A screenshot of the final styled keyboard](./guide/assets/keyboard/keyboard-final.png)
-<br>
+
+Wordle keyboard:
 ![A screenshot of the official Wordle keyboard](./guide/assets/keyboard/keyboard-wordle.png)
+
+I would say that's looking pretty spot on!
+
+Later on, we will be expanding on this keyboard, and making it better than the one in the original game, using features like CSS *pseudo-classes*, and Svelte's `motion` library.
