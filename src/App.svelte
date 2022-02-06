@@ -1,5 +1,5 @@
 <script>
-    import Keyboard from "./lib/F.svelte";
+    import Keyboard from "./lib/Keyboard.svelte";
 </script>
 
 <main>
@@ -12,8 +12,8 @@
     }
     
     main {
-        /* text-align: center; */
         padding: .5rem;
         margin: 0 auto;
+        max-width: 500px;
     }
 </style>

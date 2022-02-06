@@ -49,6 +49,7 @@
         border: none;
         border-radius: 4px;
         font-size: var(--text-size);
+        padding: 0;
         
         height: 3.5rem;
         text-transform: uppercase;
@@ -57,7 +58,6 @@
 
         flex: 1 1 0;
         
-
         /* Stops double tap to zoom in on mobile devices */
         touch-action: manipulation; 
     }

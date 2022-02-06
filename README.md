@@ -102,6 +102,7 @@ button {
     border: none;
     border-radius: 4px;
     font-size: var(--text-size);
+    padding: 0;
 }
 ```
 Our keyboard now looks like this:
