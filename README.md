@@ -108,7 +108,7 @@ button {
 ```
 Our keyboard now looks like this:
 ![The basically-styled keyboard with no gaps between the spaces](./guide/assets/keyboard/keyboard-basic-styling.png)
-Ok; it's getting better.
+> **Ok; it's getting better.**
 
 Next let's space things out a bit. The keys are all cramped together - this can be fixed with a simple `margin` on each key. There's also not much space around the letters on each key. While one way to do this would be to introduce a `padding` on the keys, we're going to take a different approach. By leveraging features of flexbox, we can make the keyboard act in a more responsive way across changing screen sizes. Let's add some declarations to the `button` rule we already have.
 ```css
@@ -122,7 +122,7 @@ button {
 ```
 The most interesting property here is `flex`. It's a 3-in-1 value pack; bundling `flex-grow`, `flex-shrink` and `flex-basis` properties into a single property. The one we are most interested in is `flex-grow`. This makes each item in the flexbox - i.e. each key - grow to take up the available space. Since our rows' `flex-direction`s are set to `row` - as is default - they grow widthways. This lets the keys grow and shrink to fill the space available to them.
 
-Try resizing your viewport!
+> **Try resizing your viewport!**
 
 Our keyboard in its full width:
 ![A screenshot of the Replit web preview showing the keyboard taking its full width](./guide/assets/keyboard/keyboard-reactivity-1.png)
