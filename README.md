@@ -28,7 +28,7 @@ To demonstrate this point, I could rename a picture from `font.woff2` to `image.
 <br>
 
 ![The original game's header](./guide/assets/header/wordle-header.png)
-https://www.nytimes.com/games/wordle/fonts/karnakcondensed-normal-700.woff2
+[Title font download link](https://www.nytimes.com/games/wordle/fonts/karnakcondensed-normal-700.woff2)
 
 ## Keyboard
 Let's make a new component in `/src/lib/`, called `Keyboard.svelte`.
