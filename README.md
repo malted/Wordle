@@ -15,13 +15,17 @@ To do this, we first need to import the font. To do this, we will use a CSS at-r
 Here, `font-family` is the name we give the newly imported font. It could be anything we choose.
 Meanwhile, `src` is file that contains the font. We're using two CSS functions here; `url()` simply points the browser to a file location, while `format()`, as the name suggests, gives the browser a hint on what type of font format said file is. While it's not strictly needed, it's good practice to anyway.
 
-> **Couldn't the browser simply infer the file format from the file name's ending?**
-> 
+<blockquote>
+<details>
+<summary><b>Couldn't the browser simply infer the file format from the file name's ending?</b></summary>
 No! A file extension is just a part of the file name. It doesn't do anything special by itself. On Windows, this is not obvious as the file extension specifies the program to be used to open the file. This is an example of the operating system abstracting information away from the user. TODO: say how this can be unhelpful in teaching people about files, and how GNU/Linux tends to handle this differently.
-> 
+
 To demonstrate this point, I could rename a picture from `font.woff2` to `image.png`. This does not affect the file contents and we could still use it as a font in the same way: `src: url("image.png") format("woff2");`
->
-TL;DR - A file's name does not guarantee the type of information it contains. This is why the `format()` method is useful for specifying the format of the file explicitly.
+
+*TL;DR* - A file's name does not guarantee the type of information it contains. This is why the `format()` method is useful for specifying the format of the file explicitly.
+</details>
+</blockquote>
+<br>
 
 ![The original game's header](./guide/assets/header/wordle-header.png)
 https://www.nytimes.com/games/wordle/fonts/karnakcondensed-normal-700.woff2
