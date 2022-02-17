@@ -1,22 +1,17 @@
 <script>
     import backspace from "../assets/backspace.svg";
-    
-    const rows = [
-        ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-        ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-        ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"],
-    ]
+    import { keyboardLetters } from "./store.js";
 </script>
 
 <div id="keyboard">
-    {#each rows as row}
+    {#each keyboardLetters as row}
         <div class="row">
             {#each row as key}
                 {#if key === "a"}
                     <div class="half"></div>
                 {/if}
-                <button class={key === "enter" || key === "backspace" ? "one-and-a-half" : ""}>
-                    {#if key === "backspace"}
+                <button class={key === "Enter" || key === "Backspace" ? "one-and-a-half" : ""}>
+                    {#if key === "Backspace"}
                         <img src={backspace}>
                     {:else}
                         {key}
@@ -35,15 +30,18 @@
         --text-size: .8rem;
         --key-margin: .2rem;
     }
-    #keyboard { /* The whole keyboard */
+    #keyboard {
         display: flex;
         flex-direction: column;
+        align-self: center;
+        width: 100%;
+        max-width: 30rem;
     }
-    .row { /* Each keyboard row */
+    .row {
         display: flex;
         justify-content: center;
     }
-    button { /* Each key */
+    button {
         text-transform: uppercase;
         color: black;
         background-color: lightgrey;

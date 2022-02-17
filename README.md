@@ -1,6 +1,5 @@
-# Worlde Clone Guide
-
-
+# Making A Wordle Clone In Svelte
+https://www.nytimes.com/games/wordle/fonts/karnakcondensed-normal-700.woff2
 
 ## Keyboard
 Let's make a new component in `/src/lib/`, called `Keyboard.svelte`.
