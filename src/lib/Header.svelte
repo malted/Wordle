@@ -20,7 +20,7 @@
 <style>
     @font-face {
         font-family: Karnak;
-        src: url("../assets/karnak.woff2");
+        src: url("../assets/karnak.woff2") format("woff2");
     }
     #header {
         display: flex;
