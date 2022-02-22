@@ -34,6 +34,7 @@ Let's start off with our first component: the page's header.
 The main role of this is to display the game's name, along with some icon buttons for things like settings and help et cetera.
 
 Create a new component by creating a new file...
+
 ![The file create button in Replit](./guide/assets/repl/create-file.png)
 
 ...and giving it a name ending with `.svelte`. I have named mine `Header.svelte`. It's convention to name components in CamelCase.
@@ -65,7 +66,7 @@ To use it, we first need to import the font. To do this, we will use a CSS at-ru
 ```css
 @font-face {
 	font-family: Karnak;
-	src: url("../assets/karnak.woff2") format("woff2");
+	src: url("../assets/header/karnak.woff2") format("woff2");
 }
 ```
 
@@ -133,7 +134,7 @@ Now we need to import them into our component. In Svelte, we don't put the paths
 Now, when adding our images, we can simply supply the value of the `src` properties as we would with any other JS variable in Svelte;
 
 ```html
-<img src="{help}" />
+<img src="{help}" /> // TODO: Remove quotes >:( prettier is dumb
 <img src="{menu}" />
 <!-- etc -->
 ```
@@ -143,12 +144,12 @@ The icons should be arranged in groups of two, either side of the title. Let's d
 ```html
 <div id="header">
 	<div class="menu">
-		<img src="{menu}" />
+		<img src="{menu}" /> // TODO: remove quotes
 		<img src="{help}" />
 	</div>
 	<h1>Wordle</h1>
 	<div class="menu">
-		<img src="{leaderboard}" />
+		<img src="{leaderboard}" /> // TODO: remove quotes
 		<img src="{settings}" />
 	</div>
 </div>
@@ -204,15 +205,36 @@ We can do this by simply adding `alt` attributes to the images.
 ```html
 <div id="header">
 	<div class="menu">
-		<img src="{menu}" alt="Hamburger menu icon" />
+		<img src="{menu}" alt="Hamburger menu icon" />//TODO: remove quotes
 		<img src="{help}" alt="Help icon" />
 	</div>
 	<h1>Wordle</h1>
 	<div class="menu">
-		<img src="{leaderboard}" alt="Leaderboard icon" />
+		<img src="{leaderboard}" alt="Leaderboard icon" />//TODO: remove quotes
 		<img src="{settings}" alt="Settings icon" />
 	</div>
 </div>
+```
+
+## Grid
+
+The grid is where our guessed words will appear in the game. In the original game, it is a table consisting of five columns, and six rows.
+
+Let's make a new component for our grid in `/src/lib/`, called `Grid.svelte`, and add it to our app.
+
+```html
+<script>
+	import Header from "./lib/Header.svelte";
+	import Grid from "./lib/Grid.svelte";
+</script>
+
+<main>
+	<header />
+	TODO: Capitalise >:( prettier is dumb
+	<Grid />
+</main>
+
+<!-- ... -->
 ```
 
 ## Keyboard

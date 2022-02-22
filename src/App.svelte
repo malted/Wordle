@@ -1,12 +1,12 @@
 <script>
     import Header from "./lib/Header.svelte"
-    import Board from "./lib/Grid.svelte"
+    import Grid from "./lib/Grid.svelte"
     import Keyboard from "./lib/Keyboard.svelte";
 </script>
 
 <main>
     <Header />
-    <Board />
+    <Grid />
     <Keyboard />
 </main>
 
