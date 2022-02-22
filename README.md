@@ -28,6 +28,8 @@ First, we need to create our Repl. Replit has already provided us with some temp
 
 ## Header
 
+### Setup
+
 Let's start off with our first component: the page's header.
 The main role of this is to display the game's name, along with some icon buttons for things like settings and help et cetera.
 
@@ -36,7 +38,7 @@ Create a new component by creating a new file...
 
 ...and giving it a name ending with `.svelte`. I have named mine `Header.svelte`. It's convention to name components in CamelCase.
 
-To keep things organised, I am going to put all my components in `/src/lib`.
+> 📁 For organizational purposes, I'm going to put all of my components in `/src/lib/`.
 
 The standout feature of the header is the game's title. This is super simple to implement: we can simply wrap the text in `h1` tags.
 
@@ -52,7 +54,11 @@ Let's create a `div` container for our header. This will let us add more element
 </div>
 ```
 
+### Title Font
+
 After The New York Times' acquisition of Wordle, the font of this title has changed. You can get it from [here](https://www.nytimes.com/games/wordle/fonts/karnakcondensed-normal-700.woff2).
+
+> 📁 For organizational purposes, I've put the font in `/src/assets/header/`.
 
 To use it, we first need to import the font. To do this, we will use a CSS at-rule. At-rules are CSS statements that instruct CSS how to behave, as opposed to ones that style markup.
 
@@ -83,7 +89,131 @@ _TL;DR_ - A file's name does not guarantee the type of information it contains. 
 
 Now let's use it in our component.
 
+```html
+<style>
+	h1 {
+		font-family: Karnak;
+		font-size: 2.3rem;
+	}
+</style>
+```
+
+Which yeilds the following;
+
+![The Wordle title in the new Karnak font](./guide/assets/header/wordle-logo.png)
+
+Nice. Now that our title is sorted, let's add some other elements to our header.
+
+### Header Buttons
+
+The original game has four buttons; a hamburger icon; a help icon; a leaderboard icon; and a settings icon.
+
+Let's add them in now, then at the end of the tutorial we will make them functional.
+
+First, let's get some icons. I like the ones on the [Google Icons](https://fonts.google.com/icons) site.
+
+-   [Hamburger](https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Amenu%3A)
+-   [Help](https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Ahelp_outline%3A)
+-   [Leaderboard](https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Aleaderboard%3A)
+-   [Settings](https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Asettings%3A)
+
+> 📁 For organizational purposes, I've put all of these icons in `/src/assets/header/icons/`
+
+Now we need to import them into our component. In Svelte, we don't put the paths in our `img` tags, rather we import them in our `script` tags, like so;
+
+```html
+<script>
+	import help from "../assets/header/icons/help.svg";
+	import menu from "../assets/header/icons/menu.svg";
+	import settings from "../assets/header/icons/settings.svg";
+	import leaderboard from "../assets/header/icons/leaderboard.svg";
+</script>
+```
+
+Now, when adding our images, we can simply supply the value of the `src` properties as we would with any other JS variable in Svelte;
+
+```html
+<img src="{help}" />
+<img src="{menu}" />
+<!-- etc -->
+```
+
+The icons should be arranged in groups of two, either side of the title. Let's do that in the HTML as well.
+
+```html
+<div id="header">
+	<div class="menu">
+		<img src="{menu}" />
+		<img src="{help}" />
+	</div>
+	<h1>Wordle</h1>
+	<div class="menu">
+		<img src="{leaderboard}" />
+		<img src="{settings}" />
+	</div>
+</div>
+```
+
+This outputs the following;
+
+![The Wordle header with icons arranged badly](./guide/assets/header/wordle-header-bad.png)
+
+Ah. Let's fix that. Nothing a flexbox can't fix!
+
+```css
+#header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+```
+
+We can also make it look a bit nicer by adding a border at the bottom, setting the height, and adding some padding at the sides, like so:
+
+```css
+#header {
+	/* ... */
+	border-bottom: 1px solid lightgrey;
+	height: 3.1rem;
+	padding: 0 1rem;
+}
+```
+
+Those buttons are looking a little snug - let's space them out a bit. To do this we can simply add some padding to the icons.
+
+```css
+.menu > img {
+	padding: 0.25rem;
+}
+```
+
+With our finished CSS, our header looks like this;
+
 ![The original game's header](./guide/assets/header/wordle-header.png)
+
+> **Looking good!**
+
+To finish up with our header component, we should add some alt text to the icons.
+Alt text is a description of the image, which is used by screen readers to describe the image.
+
+> **This is another reason why Svelte is awesome. If you're using a normal IDE such as VSCode, Svelte will warn you when you do not add alt text to images. (Unfortunately Replit doesn't have such warnings...yet!)** ![Svelte IDE alt text a11y warning](./guide/assets/header/a11y-alt-warning.png)
+
+We can do this by simply adding `alt` attributes to the images.
+
+```html
+<div id="header">
+	<div class="menu">
+		<img src="{menu}" alt="Hamburger menu icon" />
+		<img src="{help}" alt="Help icon" />
+	</div>
+	<h1>Wordle</h1>
+	<div class="menu">
+		<img src="{leaderboard}" alt="Leaderboard icon" />
+		<img src="{settings}" alt="Settings icon" />
+	</div>
+</div>
+```
 
 ## Keyboard
 
@@ -119,15 +249,16 @@ This will cause our component to look like this:
 
 Let's improve that backspace key. I think a backspace icon would work better in place of the word "backspace".
 I found one I liked on [Google Icons](https://fonts.google.com/icons?icon.query=backspace).
-Download it, then drag the file into the `Files` panel in Replit -
-to keep things organised, I put it in `/src/assets`.
+Download it, then drag the file into the `Files` panel in Replit.
+
+> 📁 For organizational purposes, I've put this icon in `/src/assets/keyboard/`.
 
 Alright! Let's implement it into our keyboard.
 
 First, import the image into the component:
 
 ```js
-import backspace from "../assets/backspace.svg";
+import backspace from "../assets/keyboard/backspace.svg";
 ```
 
 We want to put the SVG into the button which would have contained the text "backspace". Let's do this using Svelte's `{#if}` block, like so:
