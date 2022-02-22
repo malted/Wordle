@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This tutorial will cover concept such as; responsiveness; Svelte's `each` and `if` blocks and stores; CSS variables, at-rules, and font imports;
+This tutorial will cover concept such as; responsiveness; Svelte's `each` and `if` blocks and stores; CSS variables, at-rules, and font imports; and deploying your game for everyone to play.
 
 ### Svelte
 
@@ -31,8 +31,30 @@ First, we need to create our Repl. Replit has already provided us with some temp
 Let's start off with our first component: the page's header.
 The main role of this is to display the game's name, along with some icon buttons for things like settings and help et cetera.
 
-Now let's use it in our component.
-To do this, we first need to import the font. To do this, we will use a CSS at-rule. At-rules are CSS statements that instruct CSS how to behave, as opposed to ones that style markup.
+Create a new component by creating a new file...
+![The file create button in Replit](./guide/assets/repl/create-file.png)
+
+...and giving it a name ending with `.svelte`. I have named mine `Header.svelte`. It's convention to name components in CamelCase.
+
+To keep things organised, I am going to put all my components in `/src/lib`.
+
+The standout feature of the header is the game's title. This is super simple to implement: we can simply wrap the text in `h1` tags.
+
+```html
+<h1>Wordle</h1>
+```
+
+Let's create a `div` container for our header. This will let us add more elements around our title and let us style how the header elements should be arranged around each other.
+
+```html
+<div id="header">
+	<h1>Wordle</h1>
+</div>
+```
+
+After The New York Times' acquisition of Wordle, the font of this title has changed. You can get it from [here](https://www.nytimes.com/games/wordle/fonts/karnakcondensed-normal-700.woff2).
+
+To use it, we first need to import the font. To do this, we will use a CSS at-rule. At-rules are CSS statements that instruct CSS how to behave, as opposed to ones that style markup.
 
 ```css
 @font-face {
@@ -42,7 +64,9 @@ To do this, we first need to import the font. To do this, we will use a CSS at-r
 ```
 
 Here, `font-family` is the name we give the newly imported font. It could be anything we choose.
-Meanwhile, `src` is file that contains the font. We're using two CSS functions here; `url()` simply points the browser to a file location, while `format()`, as the name suggests, gives the browser a hint on what type of font format said file is. While it's not strictly needed, it's good practice to anyway.
+Meanwhile, `src` is file that contains the font.
+
+We're using two CSS functions here; `url()` simply points the browser to a file location, while `format()`, as the name suggests, gives the browser a hint on what type of font format said file is. While it's not strictly needed, it's good practice to anyway.
 
 <blockquote>
 <details>
@@ -57,8 +81,9 @@ _TL;DR_ - A file's name does not guarantee the type of information it contains. 
 </blockquote>
 <br>
 
+Now let's use it in our component.
+
 ![The original game's header](./guide/assets/header/wordle-header.png)
-[Title font download link](https://www.nytimes.com/games/wordle/fonts/karnakcondensed-normal-700.woff2)
 
 ## Keyboard
 
