@@ -91,55 +91,55 @@
     }
 </script>
 
-<div id="board-container">
-    <div id="board">
+<div id="grid-container">
+    <table>
         {#each Array(rowNum) as _, row}
-            {#each Array(rowLength) as _, tile}
-                <div class="tile">
+            <tr>
+                {#each Array(rowLength) as _, tile}
+                <td>
                     <p class="letter">
-                        {gridContent[row][tile] ?? "\xa0"}
+                        <!-- {gridContent[row][tile] ?? "\xa0"} -->
+                        {tile}
                     </p>
-                </div>
-            {/each}
+                </td>
+                {/each}
+            </tr>
         {/each}
-    </div>
+    </table>
 </div>
 
 <style>
-    #board-container {
+    #grid-container {
+        height: 100%;
         display: flex;
-        flex-direction: row;
-        align-self: center;
-        justify-content: center;
-        max-width: 30rem;
-        height: 100%;
-        padding: .5rem;
     }
-    #board {
-        height: 100%;
-        max-height: 400px;
-        aspect-ratio: 330/400;
+    table {
+        border-spacing: .3rem;
+        text-align: center;
         margin: auto;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-gap: .3rem;
+        height: 100%;
+        max-height: 25rem;
+        max-width: 34.375rem;
     }
-    /* https://css-tricks.com/controlling-css-animations-transitions-javascript/ */
-    .tile { 
+    td {
         border: 2px solid lightgrey;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transform: scaleY(1);
-        transition: transform 0.4s ease;
+        padding: 0;
+        margin: 0;
     }
-    .tile.correct {
+    td.correct {
         background-color: var(--col-correct);
     }
+    .td.present {
+        background-color: var(--col-present);
+    }
+    .td.absent {
+        background-color: var(--col-absent);
+    }
     .letter {
-        text-transform: uppercase;
         margin: 0;
+        padding: 0;
         font-size: 2rem;
+        text-transform: uppercase;
     }
     @media (max-height: 600px) {
         .letter {

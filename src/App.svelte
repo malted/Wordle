@@ -11,6 +11,11 @@
 </main>
 
 <style>
+    :global(:root) {
+        --col-correct: rgb(106, 170, 100);
+        --col-present: rgb(201, 180, 88);
+        --col-absent: rgb(120, 124, 126);
+    }
     :global(html, body, #app) {
         margin: 0;
         height: 100%;

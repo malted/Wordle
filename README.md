@@ -237,6 +237,151 @@ Let's make a new component for our grid in `/src/lib/`, called `Grid.svelte`, an
 <!-- ... -->
 ```
 
+Alright. First, let's specify the grid's height and width.
+
+```html
+<script>
+	const rowLength = 5;
+	const rowNum = 6;
+</script>
+```
+
+Then, we can use them in generating our grid.
+We're going to use a `table` tag for our main grid, use `tr` (table row) tags for each row, and `td` (table data) tags for each tile.
+
+Originally, I was using a CSS grid of `div`s, but I found that it was more complex than this method. Additionally, using table elements makes our grid much more semantic!
+
+<blockquote>
+<details>
+<summary><b>What are HTML semantics?</b></summary>
+Semantically valid HTML helps screen readers, search engines, and other user devices decide the context and significance of web content.
+
+To effectively represent content meaning, developers choose appropriate HTML elements regarding the intrinsic meaning of a web page rather than how they appear visually.
+
+Examples of non-semantic elements include;
+
+-   `<div>`
+-   `<span>`
+
+These tell us nothing about their content.
+
+Meanwhile, examples of semantic elements include;
+
+-   `<form>`
+-   `<article>`
+-   `<table>`
+
+These clearly define their content.
+
+###### Source: elementor.com, w3schools.com
+
+</details>
+</blockquote>
+<br>
+
+We want our grid to resemble something like this;
+
+```html
+<table>
+	<tr>
+		<td>
+			<p>
+				<!-- This is where the letter in the tile will go -->
+			</p>
+		</td>
+
+		<!-- Repeat four more times -->
+	</tr>
+
+	<!-- Repeat five more times -->
+</table>
+```
+
+Implementing this is actually pretty simple in Svelte. We can simply use the `{each}` block to iterate over our grid.
+
+First, we need to create the rows. We want 6 of them, as we have already specifed in our `rowNum` variable.
+
+Numbers themselves are not iterable in Javascript, so in order to be able to use them in our `{each}` block, we need to make them iterable.
+To do this, we can make an array the same length as our `rowNum` variable. This is easy to do.
+
+The `Array` constructor can take a number as an argument, and will create an array of that length. A quirk of Javascript means that this new array is populated with empty slots, not slots with actual `undefined` values. Since we only want an iterable of a set length, and don't care about what the values are, we can just use `Array(rowNum)`.
+
+In our `{#each}` loop, we would also usually define a variable to hold the current value of the current loop. In our case, it would just be an empty array slot, so we can discard it by naming the variable `_`.
+
+Finally, we can access the current index of the loop by providing a variable name as a second argument to the `{#each}` block. In this case, let's name it `row`. On the first iteration, `row` will be `0`, on the second iteration, `row` will be `1`, and so on, until the end of our array.
+
+Let's add our rows to our grid.
+
+```html
+<table>
+	{#each Array(rowNum) as _, row}
+	<tr></tr>
+	{/each}
+</table>
+```
+
+This outputs the following;
+
+```html
+<table>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+</table>
+```
+
+The `tr` element has been repeated six times because our `rowNum` variable is six.
+
+Now we can add the tiles to our rows in the same manner.
+
+```html
+<table>
+	{#each Array(rowNum) as _, row}
+	<tr>
+		{#each Array(rowLength) as _, col}
+		<td></td>
+		{/each}
+	</tr>
+	{/each}
+</table>
+```
+
+Cool. Now we have our grid.
+In order to display the letters inside the tiles, however, we should add a `p` element to each tile, so we have more control over the styling of the letters.
+
+While developing the game, let's display the row all the tiles are on, as well, to make sure it's working as expected.
+
+```html
+<!-- ... -->
+<td>
+	<p>{row}</p>
+</td>
+<!-- ... -->
+```
+
+Which outputs the following;
+
+![The unstyled grid, with numbers in the tile slots displaying the tile's row number](./guide/assets/grid/unstyled-grid-rowsdebug.png)
+
+The row numbers are there, but it still looks nothing like a Wordle grid. Let's analyse the orignal game's grid to see what we need to change in ours.
+
+![The original game's letter grid](./guide/assets/grid/official-wordle-grid.png)
+
+In this screenshot I have enabled the browser devtools to view the tile dimensions.
+
+Firstly—and perhaps most obviously—the grid tiles have a gray outline on their borders. The tiles themselves are square, measuring 62 pixels squared. The tiles have a
+
+This is equivalent to 3.875 rem.
+
+// TODO: add dropdown
+Why is <code>rem</code> better than <code>px</code>?
+
+User preferences are respected
+You can change the apparent px value of rem to whatever you'd like
+
 ## Keyboard
 
 Let's make a new component in `/src/lib/`, called `Keyboard.svelte`.
