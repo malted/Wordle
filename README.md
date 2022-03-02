@@ -120,37 +120,31 @@ First, let's get some icons. I like the ones on the [Google Icons](https://fonts
 
 > 📁 For organizational purposes, I've put all of these icons in `/src/assets/header/icons/`
 
-Now we need to import them into our component. In Svelte, we don't put the paths in our `img` tags, rather we import them in our `script` tags, like so;
+Now we can use them in our component.
 
 ```html
-<script>
-	import help from "../assets/header/icons/help.svg";
-	import menu from "../assets/header/icons/menu.svg";
-	import settings from "../assets/header/icons/settings.svg";
-	import leaderboard from "../assets/header/icons/leaderboard.svg";
-</script>
+<div id="header">
+	<h1>Wordle</h1>
+
+	<img src="../assets/header/icons/menu.svg" />
+	<img src="../assets/header/icons/help.svg" />
+	<img src="../assets/header/icons/leaderboard.svg" />
+	<img src="../assets/header/icons/settings.svg" />
+</div>
 ```
 
-Now, when adding our images, we can simply supply the value of the `src` properties as we would with any other JS variable in Svelte;
-
-```html
-<img src="{help}" /> // TODO: Remove quotes >:( prettier is dumb
-<img src="{menu}" />
-<!-- etc -->
-```
-
-The icons should be arranged in groups of two, either side of the title. Let's do that in the HTML as well.
+The icons should be arranged in groups of two, either side of the title. Let's do that in the HTML as well, as well as putting them in a `div` container with a class of `menu` so we can style them later.
 
 ```html
 <div id="header">
 	<div class="menu">
-		<img src="{menu}" /> // TODO: remove quotes
-		<img src="{help}" />
+		<img src="../assets/header/icons/menu.svg" />
+		<img src="../assets/header/icons/help.svg" />
 	</div>
 	<h1>Wordle</h1>
 	<div class="menu">
-		<img src="{leaderboard}" /> // TODO: remove quotes
-		<img src="{settings}" />
+		<img src="../assets/header/icons/leaderboard.svg" />
+		<img src="../assets/header/icons/settings.svg" />
 	</div>
 </div>
 ```
@@ -205,13 +199,16 @@ We can do this by simply adding `alt` attributes to the images.
 ```html
 <div id="header">
 	<div class="menu">
-		<img src="{menu}" alt="Hamburger menu icon" />//TODO: remove quotes
-		<img src="{help}" alt="Help icon" />
+		<img src="../assets/header/icons/menu.svg" alt="Hamburger menu icon" />
+		<img src="../assets/header/icons/help.svg" alt="Help icon" />
 	</div>
 	<h1>Wordle</h1>
 	<div class="menu">
-		<img src="{leaderboard}" alt="Leaderboard icon" />//TODO: remove quotes
-		<img src="{settings}" alt="Settings icon" />
+		<img
+			src="../assets/header/icons/leaderboard.svg"
+			alt="Leaderboard icon"
+		/>
+		<img src="../assets/header/icons/settings.svg" alt="Settings icon" />
 	</div>
 </div>
 ```
@@ -320,7 +317,7 @@ Let's add our rows to our grid.
 </table>
 ```
 
-This outputs the following;
+This results in the following;
 
 ```html
 <table>
@@ -372,15 +369,37 @@ The row numbers are there, but it still looks nothing like a Wordle grid. Let's 
 
 In this screenshot I have enabled the browser devtools to view the tile dimensions.
 
-Firstly—and perhaps most obviously—the grid tiles have a gray outline on their borders. The tiles themselves are square, measuring 62 pixels squared. The tiles have a
+-   Firstly—and perhaps most obviously—the grid tiles have a gray outline on their borders.
+-   The tiles themselves are square, measuring 62 pixels squared. <!-- This is equsivalent to 3.875 rem. -->
+-   The tiles have a small gap between each other
 
-This is equivalent to 3.875 rem.
+<blockquote>
+<details>
+<summary><b>Why is <code>rem</code> better than <code>px</code>?</b></summary>
+In short, <code>rem</code> is a relative unit of measurement. It is a unit of measurement that is relative to the font size of the root element; i.e. the <code>html</code> element. Because of this, it respects user preferences more than <code>px</code>.
+<br>
+To demonstrate this, change the font size of the <code>html</code> element to <code>8px</code>. Because the default font size on practically all browsers is <code>16px</code>, all the elements with measurements specified with the <code>rem</code> unit will be scaled down by a factor of <code>2</code>, while the elements with measurements specified with the <code>px</code> unit will not be scaled at all.
+<br><br>
+Fun fact: 1 CSS <code>px</code> does not equal one physical pixel on your display. If it did, all your <code>px</code> measurements would differ depeding on the screen resolution!
+<br><br>
 
-// TODO: add dropdown
-Why is <code>rem</code> better than <code>px</code>?
+Have a look at the [W3 CSS units tips and tricks page](https://www.w3.org/Style/Examples/007/units.en.html)
 
-User preferences are respected
-You can change the apparent px value of rem to whatever you'd like
+</details>
+</blockquote>
+<br>
+
+Alright. Now we know what we need to do to our grid, let's do it!
+
+First, let's add the tile outline.
+
+```css
+td {
+	border: 0.125rem solid lightgrey; /* This is equivalent to 2px */
+}
+```
+
+Then, we can make the tiles square. The method we are going to use does not involve simply changing the width and height of the tiles. Instead, we are going to apply properties to the `table` element.
 
 ## Keyboard
 
@@ -422,18 +441,12 @@ Download it, then drag the file into the `Files` panel in Replit.
 
 Alright! Let's implement it into our keyboard.
 
-First, import the image into the component:
-
-```js
-import backspace from "../assets/keyboard/backspace.svg";
-```
-
 We want to put the SVG into the button which would have contained the text "backspace". Let's do this using Svelte's `{#if}` block, like so:
 
 ```html
 <button>
 	{#if key === "backspace"}
-	<img src="{backspace}" />
+	<img src="../assets/keyboard/backspace.svg" />
 	{:else} {key} {/if}
 </button>
 ```
@@ -542,7 +555,7 @@ To do this, we are going to insert a div before the "a" key, and one after the "
 {/if}
 <button>
 	{#if key === "backspace"}
-	<img src="{backspace}" />
+	<img src="../assets/keyboard/backspace.svg" />
 	{:else} {key} {/if}
 </button>
 {#if key === "l"}

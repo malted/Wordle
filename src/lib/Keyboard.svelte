@@ -1,5 +1,4 @@
 <script>
-    import backspace from "../assets/backspace.svg";
     import { keyboardLetters } from "./store.js";
 </script>
 
@@ -12,7 +11,7 @@
                 {/if}
                 <button class={key === "Enter" || key === "Backspace" ? "one-and-a-half" : ""}>
                     {#if key === "Backspace"}
-                        <img src={backspace}>
+                        <img src="../assets/keyboard/backspace.svg" alt="Backspace icon">
                     {:else}
                         {key}
                     {/if}

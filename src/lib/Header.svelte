@@ -1,19 +1,12 @@
-<script>
-    import help from "../assets/header/icons/help.svg";
-    import leaderboard from "../assets/header/icons/leaderboard.svg";
-    import menu from "../assets/header/icons/menu.svg";
-    import settings from "../assets/header/icons/settings.svg";
-</script>
-
 <div id="header">
 	<div class="menu">
-		<img src="{menu}" alt="Hamburger menu icon" />
-		<img src="{help}" alt="Help icon" />
+		<img src="../assets/header/icons/menu.svg" alt="Hamburger menu icon" />
+		<img src="../assets/header/icons/help.svg" alt="Help icon" />
 	</div>
 	<h1>Wordle</h1>
 	<div class="menu">
-		<img src="{leaderboard}" alt="Leaderboard icon" />
-		<img src="{settings}" alt="Settings icon" />
+		<img src="../assets/header/icons/leaderboard.svg" alt="Leaderboard icon" />
+		<img src="../assets/header/icons/settings.svg" alt="Settings icon" />
 	</div>
 </div>
 
