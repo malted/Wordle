@@ -78,7 +78,10 @@ We're using two CSS functions here; `url()` simply points the browser to a file 
 <blockquote>
 <details>
 <summary><b>Couldn't the browser simply infer the file format from the file name's ending?</b></summary>
-No! A file extension is just a part of the file name. It doesn't do anything special by itself. On Windows, this is not obvious as the file extension specifies the program to be used to open the file. This is an example of the operating system abstracting information away from the user. TODO: say how this can be unhelpful in teaching people about files, and how GNU/Linux tends to handle this differently.
+No! A file extension is just a part of the file name. It doesn't do anything special by itself. On Windows, this is not obvious as the file extension specifies the program to be used to open the file. This is an example of the operating system abstracting information away from the user.
+This abstraction is deemed unhelpful by many.
+
+Notably, Linux treats file names and their endings as something solely for indicating to the user what the file is for, and nothing else.
 
 To demonstrate this point, I could rename a picture from `font.woff2` to `image.png`. This does not affect the file contents and we could still use it as a font in the same way: `src: url("image.png") format("woff2");`
 
@@ -118,7 +121,9 @@ First, let's get some icons. I like the ones on the [Google Icons](https://fonts
 -   [Leaderboard](https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Aleaderboard%3A)
 -   [Settings](https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Asettings%3A)
 
-> 📁 For organizational purposes, I've put all of these icons in `/src/assets/header/icons/`
+> 📁 For organizational purposes, I've put all of these icons in `/public/header/icons/`
+
+> In Svelte, files in the `public` directory are served at the root path. This means that any assets in a folder called `public` at the root of your project can be referred to by starting the path with `/`, instead of `/public/`.
 
 Now we can use them in our component.
 
@@ -126,10 +131,10 @@ Now we can use them in our component.
 <div id="header">
 	<h1>Wordle</h1>
 
-	<img src="../assets/header/icons/menu.svg" />
-	<img src="../assets/header/icons/help.svg" />
-	<img src="../assets/header/icons/leaderboard.svg" />
-	<img src="../assets/header/icons/settings.svg" />
+	<img src="/header/icons/menu.svg" />
+	<img src="/header/icons/help.svg" />
+	<img src="/header/icons/leaderboard.svg" />
+	<img src="/header/icons/settings.svg" />
 </div>
 ```
 
@@ -138,13 +143,13 @@ The icons should be arranged in groups of two, either side of the title. Let's d
 ```html
 <div id="header">
 	<div class="menu">
-		<img src="../assets/header/icons/menu.svg" />
-		<img src="../assets/header/icons/help.svg" />
+		<img src="/header/icons/menu.svg" />
+		<img src="/header/icons/help.svg" />
 	</div>
 	<h1>Wordle</h1>
 	<div class="menu">
-		<img src="../assets/header/icons/leaderboard.svg" />
-		<img src="../assets/header/icons/settings.svg" />
+		<img src="/header/icons/leaderboard.svg" />
+		<img src="/header/icons/settings.svg" />
 	</div>
 </div>
 ```
@@ -199,16 +204,13 @@ We can do this by simply adding `alt` attributes to the images.
 ```html
 <div id="header">
 	<div class="menu">
-		<img src="../assets/header/icons/menu.svg" alt="Hamburger menu icon" />
-		<img src="../assets/header/icons/help.svg" alt="Help icon" />
+		<img src="/header/icons/menu.svg" alt="Hamburger menu icon" />
+		<img src="/header/icons/help.svg" alt="Help icon" />
 	</div>
 	<h1>Wordle</h1>
 	<div class="menu">
-		<img
-			src="../assets/header/icons/leaderboard.svg"
-			alt="Leaderboard icon"
-		/>
-		<img src="../assets/header/icons/settings.svg" alt="Settings icon" />
+		<img src="/header/icons/leaderboard.svg" alt="Leaderboard icon" />
+		<img src="/header/icons/settings.svg" alt="Settings icon" />
 	</div>
 </div>
 ```
@@ -227,7 +229,6 @@ Let's make a new component for our grid in `/src/lib/`, called `Grid.svelte`, an
 
 <main>
 	<Header />
-	TODO: Capitalise >:( prettier is dumb
 	<Grid />
 </main>
 
@@ -415,6 +416,7 @@ table {
 }
 ```
 This results in the following grid:
+
 ![](./guide/assets/grid/grid-arrangement-no-styling.png)
 
 > **This is starting to look like a Wordle grid!**
@@ -478,6 +480,9 @@ As a final touch, we can make our lives easier for ourselves later on when we co
 }
 ```
 
+By the way, if you want to get rid of the numbers we added for testing from the tiles, simply remove `{row}` from between the `p` tags!
+
+> **The grid is done!**
 
 ## Keyboard
    
@@ -633,7 +638,7 @@ To do this, we are going to insert a div before the "a" key, and one after the "
 {/if}
 <button>
 	{#if key === "backspace"}
-	<img src="../assets/keyboard/backspace.svg" />
+	<img src="/assets/keyboard/backspace.svg" />
 	{:else} {key} {/if}
 </button>
 {#if key === "l"}
