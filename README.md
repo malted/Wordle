@@ -446,6 +446,29 @@ table {
 	border-spacing: .3rem;
 }
 ```
+With all of this styling applied, the final grid looks like this;
+
+![The final styled page simulated on an iPhone 11 Pro](./guide/assets/grid/grid-no-parent-iphone11pro.png)
+
+This screenshot is the result of simulating the page on an iPhone 11 Pro.
+While it looks fine here, when simulated on a significantly smaller screen, for example an iPhone 5/SE, the centering of the grid breaks, as seen below;
+
+![The final styled page simulated on an iPhone 5/SE, showing how the grid is off center on such a small screen](./guide/assets/grid/grid-no-parent-iphone5-se.png)
+
+This is because the vertical height of the grid is too small. To fix this, we can introduce a parent element to the whole grid and apply a flexbox to it;
+```html
+<div id="grid-container">
+    <table>
+		<!-- ... -->
+	</table>
+</div>
+```
+```css
+#grid-container {
+	height: 100%;
+	display: flex;
+}
+```
 
 As a final touch, we can make our lives easier for ourselves later on when we come to adding logic to the grid, by forcing all the characters in our tiles to uppercase - in CSS!
 ```css
@@ -455,8 +478,6 @@ As a final touch, we can make our lives easier for ourselves later on when we co
 }
 ```
 
-
-TODO: grid container, 
 
 ## Keyboard
    
