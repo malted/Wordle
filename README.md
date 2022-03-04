@@ -226,7 +226,7 @@ Let's make a new component for our grid in `/src/lib/`, called `Grid.svelte`, an
 </script>
 
 <main>
-	<header />
+	<Header />
 	TODO: Capitalise >:( prettier is dumb
 	<Grid />
 </main>
@@ -391,18 +391,75 @@ Have a look at the [W3 CSS units tips and tricks page](https://www.w3.org/Style/
 
 Alright. Now we know what we need to do to our grid, let's do it!
 
-First, let's add the tile outline.
+First, let's add the tile outline. We should also remove the padding and margin to make things easier later on.
 
 ```css
 td {
 	border: 0.125rem solid lightgrey; /* This is equivalent to 2px */
+	padding: 0;
+	margin: 0;
 }
 ```
 
 Then, we can make the tiles square. The method we are going to use does not involve simply changing the width and height of the tiles. Instead, we are going to apply properties to the `table` element.
 
-## Keyboard
+The way we are going to make our grid reactive is to tell it to fill the entire available space, then limit it with our desired height and width. That way, it will fill the screen at small screen sizes (for example on mobile) but will not on larger screens (like desktops).
 
+Let's also set `margin` to `auto`, which will horizontally center the grid.
+
+```css
+table {
+	margin: auto;
+	height: 100%;
+	max-height: 25rem;
+}
+```
+This results in the following grid:
+![](./guide/assets/grid/grid-arrangement-no-styling.png)
+
+> **This is starting to look like a Wordle grid!**
+
+Next, let's fix the characters inside the tiles.
+
+We can very easily center the characters inside the tiles by setting `text-align` on our `table`;
+```css
+table {
+	/* ... */
+	text-align: center;
+}
+```
+
+Let's also make the characters easier to see. We'll remove the `margin` and `padding` too, as is becoming the norm...
+
+```css
+.letter {
+	margin: 0;
+	padding: 0;
+	font-size: 2rem;
+}
+```
+The tiles are looking a bit cramped. Let's increase the distance between them.
+The HTML `table` tag has a nifty CSS property: `border-spacing`. The border-spacing CSS property sets the distance between the borders of adjacent `<table>` cells.
+```css
+table {
+	/* ... */
+	border-spacing: .3rem;
+}
+```
+
+As a final touch, we can make our lives easier for ourselves later on when we come to adding logic to the grid, by forcing all the characters in our tiles to uppercase - in CSS!
+```css
+.letter {
+	/* ... */
+	text-transform: uppercase;
+}
+```
+
+
+TODO: grid container, 
+
+## Keyboard
+   
 Let's make a new component in `/src/lib/`, called `Keyboard.svelte`.
 First, we need to define the letters that each key will contain. I'm going to make an array containing three arrays; one for each row of the keyboard.
 
